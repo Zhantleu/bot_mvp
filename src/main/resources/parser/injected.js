@@ -30,14 +30,12 @@ function parse() {
 
     const mapAsc = new Map([...seats.entries()].sort((a, b) => a[0] - b[0]));
 
-    console.log(mapAsc)
-
-
     fetch('https://bot-mvp.herokuapp.com/seats', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
         },
+        body: mapAsc
     })
         .then(response => response.text())
         .then(text => console.log(text))
