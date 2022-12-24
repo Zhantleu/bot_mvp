@@ -10,7 +10,7 @@ const SEAT_TYPES = {
 }
 
 function parse() {
-    const seats = new Map();
+    const seats = [];
     const table = document.getElementsByTagName("cap-workstation-map-grid")[0];
     for (const childNode of table.childNodes) {
         for (const childNodeElement of childNode.childNodes) {
@@ -23,19 +23,19 @@ function parse() {
                 } else {
                     seatStatus = SEAT_TYPES.FREE
                 }
-                seats.set(seat, seatStatus)
+                seats.push({'number': seat, 'status': seatStatus})
             }
         }
     }
 
-    const mapAsc = new Map([...seats.entries()].sort((a, b) => a[0] - b[0]));
-
+    console.log(JSON.stringify(seats))
     fetch('https://bot-mvp.herokuapp.com/seats', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: mapAsc
+        body: JSON.stringify(seats)
     })
         .then(response => response.text())
         .then(text => console.log(text))
