@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -36,6 +37,7 @@ public class MapHandler implements Handler {
                         )
                     ).build()
             )
+            .photo(new InputFile(TariffsHandler.class.getResourceAsStream("/seats.jpg"), "seats.jpg"))
             .caption(getPretty())
             .build();
     }
