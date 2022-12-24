@@ -33,7 +33,7 @@ function parse() {
     console.log(mapAsc)
 
 
-    fetch('http://localhost:8080/seats', {
+    fetch('https://bot-mvp.herokuapp.com/seats', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
