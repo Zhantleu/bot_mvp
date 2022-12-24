@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/seats")
 public class SeatController {
     @PostMapping
-    @CrossOrigin(origins = "https://mvpkst.admin.enes.tech")
+//    @CrossOrigin(origins = "https://mvpkst.admin.enes.tech")
     public void save() {
         System.out.println("save");
     }
