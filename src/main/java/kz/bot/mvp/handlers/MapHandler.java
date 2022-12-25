@@ -9,6 +9,7 @@ import kz.bot.mvp.utils.DefaultKeyBoardRowUtil;
 import kz.bot.mvp.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -82,6 +83,7 @@ public class MapHandler implements Handler {
         final InputStream image = imageUtil.fillSeats(seats);
         return SendPhoto.builder()
             .chatId(chatId)
+            .parseMode(ParseMode.HTML)
             .replyMarkup(
                 ReplyKeyboardMarkup.builder()
                     .keyboard(
@@ -119,6 +121,6 @@ public class MapHandler implements Handler {
             "\n" +
             "Уточняйте информацию у администратора!\n" +
             "\n" +
-            "Чтобы узнать через сколько освободятся нужны вам места - пишите в Инстаграм [@mvp_kst](https://www.instagram.com/mvp_kst/)";
+            "Чтобы узнать через сколько освободятся нужны вам места - пишите в Инстаграм <a href='https://www.instagram.com/mvp_kst/'>@mvp_kst</a>";
     }
 }
