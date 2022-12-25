@@ -28,12 +28,17 @@ public class ImageUtil {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
              ByteArrayOutputStream copyBytes = new ByteArrayOutputStream();
              ImageOutputStream output = new MemoryCacheImageOutputStream(bytes);
-             ImageOutputStream copy = new MemoryCacheImageOutputStream(copyBytes)) {
-            BufferedImage img = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
-            ImageIO.write(img, "png", copy);
+             ImageOutputStream copyOutput = new MemoryCacheImageOutputStream(copyBytes)) {
+
+            BufferedImage imgCopy = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
+            ImageIO.write(imgCopy, "png", copyOutput);
+
+
             final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(copyBytes.toByteArray());
-            BufferedImage imgCopy = ImageIO.read(new BufferedInputStream(byteArrayInputStream));
-            Graphics2D graph = imgCopy.createGraphics();
+            BufferedImage img = ImageIO.read(new BufferedInputStream(byteArrayInputStream));
+            Graphics2D graph = img.createGraphics();
+
+
             for (Seat seat : seats) {
                 graph.setColor(seat.getColor());
 
@@ -46,7 +51,7 @@ public class ImageUtil {
                 graph.fill(new Rectangle(x + LINE_HEIGHT - 5, y, LINE_WIDTH, LINE_HEIGHT + 3));
             }
             graph.dispose();
-            ImageIO.write(imgCopy, "png", output);
+            ImageIO.write(img, "png", output);
             return new ByteArrayInputStream(bytes.toByteArray());
         } catch (IOException ex) {
             ex.printStackTrace();
