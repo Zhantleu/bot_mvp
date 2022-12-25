@@ -102,6 +102,7 @@ public class MapHandler implements Handler {
     private List<Seat> getSeats() {
         final HashMap<Integer, SeatStatus> seats = seatStorage.getSeats();
         System.out.println(seats.size());
+        System.out.println(seats);
         return seats
             .entrySet()
             .stream()
