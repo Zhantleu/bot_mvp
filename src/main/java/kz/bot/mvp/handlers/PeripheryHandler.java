@@ -21,7 +21,7 @@ public class PeripheryHandler implements Handler {
             ).text(
                 "" +
                     "   Общий зал\n" +
-                    "Монитор ACER 1920*1080 FullHD 165 Гц\n" +
+                    "\uD83D\uDDA5 Монитор ACER 1920*1080 FullHD 165 Гц\n" +
                     "⌨️ Клавиатура A4Tech Bloody B500N\n" +
                     "\uD83D\uDDB1 Мышь ASUS P305 TUF Gaming M3\n" +
                     "\uD83C\uDFA7 Наушники HyperX Cloud Stinger Core\n" +
