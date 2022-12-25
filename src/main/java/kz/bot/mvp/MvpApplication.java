@@ -18,9 +18,9 @@ public class MvpApplication {
 
     public static void main(String[] args) throws TelegramApiException {
         ConfigurableApplicationContext appContext = SpringApplication.run(MvpApplication.class, args);
-//        MvpBot bot = appContext.getBean(MvpBot.class);
-//        final TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-//        telegramBotsApi.registerBot(bot);
+        MvpBot bot = appContext.getBean(MvpBot.class);
+        final TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+        telegramBotsApi.registerBot(bot);
     }
 
 }

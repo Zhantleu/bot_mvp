@@ -2,12 +2,13 @@ package kz.bot.mvp.handlers;
 
 import kz.bot.mvp.models.Point;
 import kz.bot.mvp.models.Seat;
-import kz.bot.mvp.models.SeatStatus;
 import kz.bot.mvp.storage.SeatStorage;
+import kz.bot.mvp.utils.DefaultKeyBoardRowUtil;
 import kz.bot.mvp.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -62,9 +63,20 @@ public class MapHandler implements Handler {
         this.imageUtil = imageUtil;
     }
 
+    private static SendMessage getErrorMessage(String chatId) {
+        return SendMessage.builder()
+            .chatId(chatId)
+            .text("Извините. На данный момент сервис не доступен!")
+            .replyMarkup(ReplyKeyboardMarkup.builder().keyboard(DefaultKeyBoardRowUtil.DEFAULT_KEYBOARD).build())
+            .build();
+    }
+
     @Override
     public PartialBotApiMethod<Message> process(String chatId) {
         final List<Seat> seats = getSeats();
+        if (seats.isEmpty()) {
+            return getErrorMessage(chatId);
+        }
         final InputStream image = imageUtil.fillSeats(seats);
         return SendPhoto.builder()
             .chatId(chatId)
@@ -96,6 +108,8 @@ public class MapHandler implements Handler {
     }
 
     private String getPretty() {
-        return "Зеленый-свободный. Фиолетовый-занят.";
+        return "Зеленый-свободный. Фиолетовый-занят.\n" +
+            "\uD83D\uDDA5️2 общих зала, 21 место (1660 ti/super)\n" +
+            "⭐️1 VIP зал, 5 мест (RTX 3060)";
     }
 }
