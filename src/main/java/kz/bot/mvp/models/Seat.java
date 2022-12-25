@@ -1,6 +1,7 @@
 package kz.bot.mvp.models;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import java.awt.*;
 
@@ -8,9 +9,9 @@ import java.awt.*;
 public class Seat {
     private int number;
     private SeatStatus status;
-    private Point start;
+    private @NonNull Point start;
 
-    public Seat(int number, SeatStatus status, Point start) {
+    public Seat(int number, SeatStatus status, @NonNull Point start) {
         this.number = number;
         this.status = status;
         this.start = start;
