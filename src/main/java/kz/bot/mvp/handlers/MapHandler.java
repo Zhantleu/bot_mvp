@@ -3,9 +3,7 @@ package kz.bot.mvp.handlers;
 import kz.bot.mvp.models.Point;
 import kz.bot.mvp.models.Seat;
 import kz.bot.mvp.models.SeatStatus;
-import kz.bot.mvp.models.StepStatus;
 import kz.bot.mvp.storage.SeatStorage;
-import kz.bot.mvp.storage.StepStorage;
 import kz.bot.mvp.utils.DefaultKeyBoardRowUtil;
 import kz.bot.mvp.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.io.InputStream;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,13 +98,10 @@ public class MapHandler implements Handler {
 
     private List<Seat> getSeats() {
         final HashMap<Integer, SeatStatus> seats = seatStorage.getSeats();
-        System.out.println(seats.size());
-        System.out.println(seats);
-        return seats
+        return coordinates
             .entrySet()
             .stream()
-            .sorted(Comparator.comparingInt(Map.Entry::getKey))
-            .map(it -> new Seat(it.getKey(), it.getValue(), coordinates.get(it.getKey())))
+            .map(it -> new Seat(it.getKey(), seats.get(it.getKey()), it.getValue()))
             .collect(Collectors.toList());
     }
 
