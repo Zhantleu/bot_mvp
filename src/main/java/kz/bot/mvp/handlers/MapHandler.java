@@ -121,6 +121,6 @@ public class MapHandler implements Handler {
             "\n" +
             "Уточняйте информацию у администратора!\n" +
             "\n" +
-            "Чтобы узнать через сколько освободятся нужны вам места - пишите в Инстаграм <a href='https://www.instagram.com/mvp_kst/'>@mvp_kst</a>";
+            "Чтобы узнать через сколько освободятся нужные вам места - пишите в Инстаграм <a href='https://www.instagram.com/mvp_kst/'>@mvp_kst</a>";
     }
 }
