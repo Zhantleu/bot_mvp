@@ -12,14 +12,15 @@ import java.util.List;
 
 @Component
 public class TariffsHandler implements Handler {
-    private final static InputFile PRICE =
-        new InputFile(TariffsHandler.class.getResourceAsStream("/price.png"), "price.png");
 
     @Override
     public PartialBotApiMethod<Message> process(String chatId) {
+        final InputFile priceImg =
+            new InputFile(TariffsHandler.class.getResourceAsStream("/price.png"), "price.png");
+
         return SendPhoto.builder()
             .chatId(chatId)
-            .photo(PRICE)
+            .photo(priceImg)
             .replyMarkup(
                 ReplyKeyboardMarkup.builder()
                     .keyboard(DefaultKeyBoardRowUtil.DEFAULT_KEYBOARD).build()

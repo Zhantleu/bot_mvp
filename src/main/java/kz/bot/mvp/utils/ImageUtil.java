@@ -20,17 +20,14 @@ public class ImageUtil {
 
     private final static int LINE_HEIGHT = 108;
     private final static int LINE_WIDTH = 8;
-    private final BufferedImage img;
-
-    public ImageUtil() throws IOException {
-        InputFile SEATS = new InputFile(ImageUtil.class.getResourceAsStream("/seats.png"), "seats.png");
-        img = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
-    }
 
     @SneakyThrows
     public InputStream fillSeats(List<Seat> seats) {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
              ImageOutputStream output = new MemoryCacheImageOutputStream(bytes)) {
+            InputFile SEATS = new InputFile(ImageUtil.class.getResourceAsStream("/seats.png"), "seats.png");
+            BufferedImage img = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
+
             BufferedImage copyImg = copyImage(img);
             Graphics2D graph = copyImg.createGraphics();
 
