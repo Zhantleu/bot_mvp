@@ -28,10 +28,12 @@ public class SeatStorage {
     }
 
     public HashMap<Integer, SeatStatus> getSeats() {
-        if (received == null || ChronoUnit.MINUTES.between(now(), received) > 10) {
-            return new HashMap<>();
-        } else {
-            return new HashMap<>(STORAGE);
+        synchronized (this) {
+            if (received == null || ChronoUnit.MINUTES.between(now(), received) > 10) {
+                return new HashMap<>();
+            } else {
+                return new HashMap<>(STORAGE);
+            }
         }
     }
 }
