@@ -21,14 +21,19 @@ public class ImageUtil {
     private final static int LINE_HEIGHT = 108;
     private final static int LINE_WIDTH = 8;
     private final static InputFile SEATS =
-        new InputFile(ImageUtil.class.getResourceAsStream("/seats.png"), "seats.png");
+        new InputFile(ImageUtil.class.getResourceAsStream("seats.png"), "seats.png");
 
     @SneakyThrows
     public InputStream fillSeats(List<Seat> seats) {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-             ImageOutputStream output = new MemoryCacheImageOutputStream(bytes)) {
+             ByteArrayOutputStream copyBytes = new ByteArrayOutputStream();
+             ImageOutputStream output = new MemoryCacheImageOutputStream(bytes);
+             ImageOutputStream copy = new MemoryCacheImageOutputStream(copyBytes)) {
             BufferedImage img = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
-            Graphics2D graph = img.createGraphics();
+            ImageIO.write(img, "png", copy);
+            final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(copyBytes.toByteArray());
+            BufferedImage imgCopy = ImageIO.read(new BufferedInputStream(byteArrayInputStream));
+            Graphics2D graph = imgCopy.createGraphics();
             for (Seat seat : seats) {
                 graph.setColor(seat.getColor());
 
@@ -39,10 +44,9 @@ public class ImageUtil {
                 graph.fill(new Rectangle(x, y, LINE_HEIGHT, LINE_WIDTH));
                 graph.fill(new Rectangle(x, y + LINE_HEIGHT - 5, LINE_HEIGHT, LINE_WIDTH));
                 graph.fill(new Rectangle(x + LINE_HEIGHT - 5, y, LINE_WIDTH, LINE_HEIGHT + 3));
-
             }
             graph.dispose();
-            ImageIO.write(img, "png", output);
+            ImageIO.write(imgCopy, "png", output);
             return new ByteArrayInputStream(bytes.toByteArray());
         } catch (IOException ex) {
             ex.printStackTrace();
