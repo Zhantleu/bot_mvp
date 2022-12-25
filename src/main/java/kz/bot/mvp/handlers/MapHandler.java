@@ -1,8 +1,10 @@
 package kz.bot.mvp.handlers;
 
+import kz.bot.mvp.models.Point;
+import kz.bot.mvp.models.Seat;
 import kz.bot.mvp.models.SeatStatus;
 import kz.bot.mvp.storage.SeatStorage;
-import lombok.SneakyThrows;
+import kz.bot.mvp.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -13,55 +15,57 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
-import javax.imageio.ImageIO;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 public class MapHandler implements Handler {
 
-//    private final static
     private final SeatStorage seatStorage;
-
-    @SneakyThrows
-    public void init() {
-        InputFile SEATS =
-            new InputFile(TariffsHandler.class.getResourceAsStream("/seats.jpg"), "seats.jpg");
-        BufferedImage img = ImageIO.read(SEATS.getNewMediaStream());
-        Graphics2D g2d = img.createGraphics();
-        g2d.setColor(Color.RED);
-        g2d.drawRect(0, 0, 100, 100);
-        g2d.dispose();
-        try {
-            ImageIO.write(img, "png", SEATS.getNewMediaFile());
-        } catch (Exception e) {
-            System.out.println("[ERROR] Could not save image.");
-        }
-    }
+    private final ImageUtil imageUtil;
+    private final Map<Integer, Point> coordinates = new HashMap<>() {{
+        put(1, new Point(586, 205)); // 1
+        put(2, new Point(457, 205)); // 2
+        put(3, new Point(331, 205)); // 3
+        put(4, new Point(202, 205)); // 4
+        put(5, new Point(75, 205)); // 5
+        put(6, new Point(74, 78)); // 6
+        put(7, new Point(203, 78)); // 7
+        put(8, new Point(331, 78)); // 8
+        put(9, new Point(459, 78)); // 9
+        put(10, new Point(587, 78)); // 10
+        put(11, new Point(715, 78)); // 11
+        put(12, new Point(971, 333)); // 12
+        put(13, new Point(971, 206)); // 13
+        put(14, new Point(971, 78)); // 14
+        put(15, new Point(1099, 78)); // 15
+        put(16, new Point(1099, 206)); // 16
+        put(17, new Point(1355, 333)); // 17
+        put(18, new Point(1483, 333)); // 18
+        put(19, new Point(1611, 333)); // 19
+        put(20, new Point(1739, 333)); // 20
+        put(21, new Point(1867, 333)); // 21
+        put(22, new Point(1355, 206)); // 22
+        put(23, new Point(1483, 206)); // 23
+        put(24, new Point(1611, 206)); // 24
+        put(25, new Point(1739, 206)); // 25
+        put(26, new Point(1867, 206)); // 26
+    }};
 
     @Autowired
-    public MapHandler(SeatStorage seatStorage) {
+    public MapHandler(SeatStorage seatStorage, ImageUtil imageUtil) {
         this.seatStorage = seatStorage;
+        this.imageUtil = imageUtil;
     }
 
-    @SneakyThrows
     @Override
     public PartialBotApiMethod<Message> process(String chatId) {
-        InputFile SEATS =
-            new InputFile(TariffsHandler.class.getResourceAsStream("/seats.jpg"), "seats.jpg");
-        BufferedImage img = ImageIO.read(SEATS.getNewMediaStream());
-        Graphics2D g2d = img.createGraphics();
-        g2d.setColor(Color.RED);
-        g2d.drawRect(0, 0, 100, 100);
-        g2d.dispose();
-        try {
-            ImageIO.write(img, "png", SEATS.getNewMediaFile());
-        } catch (Exception e) {
-            System.out.println("[ERROR] Could not save image.");
-        }
+        final List<Seat> seats = getSeats();
+        final InputStream image = imageUtil.fillSeats(seats);
         return SendPhoto.builder()
             .chatId(chatId)
             .replyMarkup(
@@ -72,9 +76,18 @@ public class MapHandler implements Handler {
                         )
                     ).build()
             )
-            .photo(SEATS)
+            .photo(new InputFile(image, "image.png"))
             .caption(getPretty())
             .build();
+    }
+
+    private List<Seat> getSeats() {
+        return seatStorage.getSeats()
+            .entrySet()
+            .stream()
+            .sorted(Comparator.comparingInt(Map.Entry::getKey))
+            .map(it -> new Seat(it.getKey(), it.getValue(), coordinates.get(it.getKey())))
+            .collect(Collectors.toList());
     }
 
     @Override
