@@ -65,7 +65,7 @@ public class MapHandler implements Handler {
     @Override
     public PartialBotApiMethod<Message> process(String chatId) {
         final List<Seat> seats = getSeats();
-        final InputStream image = imageUtil.fillSeats(List.of(new Seat(1, SeatStatus.BUSY, new Point(100, 100))));
+        final InputStream image = imageUtil.fillSeats(seats);
         return SendPhoto.builder()
             .chatId(chatId)
             .replyMarkup(
