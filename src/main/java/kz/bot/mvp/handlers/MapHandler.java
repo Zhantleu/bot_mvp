@@ -2,7 +2,9 @@ package kz.bot.mvp.handlers;
 
 import kz.bot.mvp.models.Point;
 import kz.bot.mvp.models.Seat;
+import kz.bot.mvp.models.StepStatus;
 import kz.bot.mvp.storage.SeatStorage;
+import kz.bot.mvp.storage.StepStorage;
 import kz.bot.mvp.utils.DefaultKeyBoardRowUtil;
 import kz.bot.mvp.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +86,8 @@ public class MapHandler implements Handler {
                 ReplyKeyboardMarkup.builder()
                     .keyboard(
                         List.of(
-                            new KeyboardRow(List.of(new KeyboardButton("Домой")))
+                            new KeyboardRow(List.of(new KeyboardButton("Домой"))),
+                            new KeyboardRow(List.of(new KeyboardButton("Бронирование")))
                         )
                     ).build()
             )
