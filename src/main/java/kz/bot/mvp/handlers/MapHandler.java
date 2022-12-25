@@ -96,9 +96,6 @@ public class MapHandler implements Handler {
     }
 
     private String getPretty() {
-        final List<String> freeSeats =
-            seatStorage.getSeats().entrySet().stream().filter(seat -> seat.getValue().equals(SeatStatus.FREE))
-                .map(integerSeatStatusEntry -> integerSeatStatusEntry.getKey().toString()).collect(Collectors.toList());
-        return "Свободные места: " + String.join(",", freeSeats);
+        return "Зеленый-свободный. Фиолетовый-занят.";
     }
 }

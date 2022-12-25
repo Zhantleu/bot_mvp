@@ -33,6 +33,7 @@ public class ImageUtil {
              ImageOutputStream output = new MemoryCacheImageOutputStream(bytes)) {
             BufferedImage copyImg = copyImage(img);
             Graphics2D graph = copyImg.createGraphics();
+
             for (Seat seat : seats) {
                 graph.setColor(seat.getColor());
 
@@ -45,6 +46,7 @@ public class ImageUtil {
                 graph.fill(new Rectangle(x + LINE_HEIGHT - 5, y, LINE_WIDTH, LINE_HEIGHT + 3));
 
             }
+
             graph.dispose();
             ImageIO.write(copyImg, "png", output);
             return new ByteArrayInputStream(bytes.toByteArray());
