@@ -28,9 +28,9 @@ public class PeripheryHandler implements Handler {
                     "\n" +
                     "Вип зал\n" +
                     "\uD83D\uDDA5 Монитор ACER 1920*1080 FullHD 165 Гц\n" +
-                    "⌨️ Клавиатура A4Tech Bloody B500N\n" +
-                    "\uD83D\uDDB1 Мышь ASUS P305 TUF Gaming M3\n" +
-                    "\uD83C\uDFA7 Наушники HyperX Cloud Stinger Core"
+                    "⌨️ Клавиатура Hyperx Alloy Origins Core\n" +
+                    "\uD83D\uDDB1 HyperX Pulsefire Surge\n" +
+                    "\uD83C\uDFA7 Наушники Razer Blackshark V2 X \n"
             )
             .build();
     }

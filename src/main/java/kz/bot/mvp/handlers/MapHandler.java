@@ -108,7 +108,8 @@ public class MapHandler implements Handler {
     }
 
     private String getPretty() {
-        return "Зеленый-свободный. Фиолетовый-занят.\n" +
+        return "\uD83D\uDFE9-свободны\n" +
+            "\uD83D\uDFEA-занят.\n" +
             "\uD83D\uDDA5️2 общих зала, 21 место (1660 ti/super)\n" +
             "⭐️1 VIP зал, 5 мест (RTX 3060)";
     }
