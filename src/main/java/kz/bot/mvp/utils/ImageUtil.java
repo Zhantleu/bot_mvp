@@ -20,23 +20,19 @@ public class ImageUtil {
 
     private final static int LINE_HEIGHT = 108;
     private final static int LINE_WIDTH = 8;
-    private final static InputFile SEATS =
-        new InputFile(ImageUtil.class.getResourceAsStream("/seats.png"), "seats.png");
-    private final static BufferedImage img;
+    private final BufferedImage img;
 
-    static {
-        try {
-            img = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public ImageUtil() throws IOException {
+        InputFile SEATS = new InputFile(ImageUtil.class.getResourceAsStream("/seats.png"), "seats.png");
+        img = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
     }
 
     @SneakyThrows
     public InputStream fillSeats(List<Seat> seats) {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
              ImageOutputStream output = new MemoryCacheImageOutputStream(bytes)) {
-            Graphics2D graph = copyImage(img).createGraphics();
+            BufferedImage copyImg = copyImage(img);
+            Graphics2D graph = copyImg.createGraphics();
             for (Seat seat : seats) {
                 graph.setColor(seat.getColor());
 
@@ -50,7 +46,7 @@ public class ImageUtil {
 
             }
             graph.dispose();
-            ImageIO.write(img, "png", output);
+            ImageIO.write(copyImg, "png", output);
             return new ByteArrayInputStream(bytes.toByteArray());
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -58,7 +54,7 @@ public class ImageUtil {
         throw new RuntimeException("Could not edit image!");
     }
 
-    public static BufferedImage copyImage(BufferedImage source){
+    public static BufferedImage copyImage(BufferedImage source) {
         BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
         Graphics g = b.getGraphics();
         g.drawImage(source, 0, 0, null);
