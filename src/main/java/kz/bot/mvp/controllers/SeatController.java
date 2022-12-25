@@ -24,6 +24,7 @@ public class SeatController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void save(@RequestBody List<SeatDto> seats) {
+        System.out.println(seats);
         seatStorage.save(seats);
     }
 }

@@ -2,6 +2,7 @@ package kz.bot.mvp.handlers;
 
 import kz.bot.mvp.models.Point;
 import kz.bot.mvp.models.Seat;
+import kz.bot.mvp.models.SeatStatus;
 import kz.bot.mvp.models.StepStatus;
 import kz.bot.mvp.storage.SeatStorage;
 import kz.bot.mvp.storage.StepStorage;
@@ -99,7 +100,9 @@ public class MapHandler implements Handler {
     }
 
     private List<Seat> getSeats() {
-        return seatStorage.getSeats()
+        final HashMap<Integer, SeatStatus> seats = seatStorage.getSeats();
+        System.out.println(seats.size());
+        return seats
             .entrySet()
             .stream()
             .sorted(Comparator.comparingInt(Map.Entry::getKey))
