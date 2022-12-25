@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static java.time.LocalTime.now;
+
 @Component
 public class SeatStorage {
     private final static Map<Integer, SeatStatus> STORAGE = new ConcurrentHashMap<>();
@@ -26,7 +28,7 @@ public class SeatStorage {
     }
 
     public HashMap<Integer, SeatStatus> getSeats() {
-        if (received == null || received.isBefore(received.plus(10, ChronoUnit.MINUTES))) {
+        if (received == null || ChronoUnit.MINUTES.between(now(), received) > 10) {
             return new HashMap<>();
         } else {
             return new HashMap<>(STORAGE);
