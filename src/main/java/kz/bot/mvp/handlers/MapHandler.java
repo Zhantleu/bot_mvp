@@ -113,7 +113,11 @@ public class MapHandler implements Handler {
     private String getPretty() {
         return "\uD83D\uDFE9 - СВОБОДЕН\n" +
             "\uD83D\uDFEA - ЗАНЯТ\n" +
+            "\n" +
             "\uD83D\uDDA5️2 общих зала, 21 место (1660 ti/super)\n" +
-            "⭐️1 VIP зал, 5 мест (RTX 3060)";
+            "⭐️1 VIP зал, 5 мест (RTX 3060)" +
+            "\n" +
+            "Уточняйте информацию у администратора!\n" +
+            "Чтобы узнать через сколько освободятся нужны вам места - пишите в Инстаграм @mvp_kst";
     }
 }

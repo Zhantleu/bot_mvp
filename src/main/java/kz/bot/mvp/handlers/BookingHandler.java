@@ -29,7 +29,7 @@ public class BookingHandler implements Handler {
     public PartialBotApiMethod<Message> process(String chatId) {
         return SendMessage.builder()
             .chatId(chatId)
-            .text("Выберите места!")
+            .text("Скоро будет реализовано)")
             .replyMarkup(
                 ReplyKeyboardMarkup.builder()
                     .keyboard(
