@@ -21,24 +21,22 @@ public class ImageUtil {
     private final static int LINE_HEIGHT = 108;
     private final static int LINE_WIDTH = 8;
     private final static InputFile SEATS =
-        new InputFile(ImageUtil.class.getResourceAsStream("seats.png"), "seats.png");
+        new InputFile(ImageUtil.class.getResourceAsStream("/seats.png"), "seats.png");
+    private final static BufferedImage img;
+
+    static {
+        try {
+            img = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @SneakyThrows
     public InputStream fillSeats(List<Seat> seats) {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-             ByteArrayOutputStream copyBytes = new ByteArrayOutputStream();
-             ImageOutputStream output = new MemoryCacheImageOutputStream(bytes);
-             ImageOutputStream copyOutput = new MemoryCacheImageOutputStream(copyBytes)) {
-
-            BufferedImage imgCopy = ImageIO.read(new BufferedInputStream(SEATS.getNewMediaStream()));
-            ImageIO.write(imgCopy, "png", copyOutput);
-
-
-            final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(copyBytes.toByteArray());
-            BufferedImage img = ImageIO.read(new BufferedInputStream(byteArrayInputStream));
-            Graphics2D graph = img.createGraphics();
-
-
+             ImageOutputStream output = new MemoryCacheImageOutputStream(bytes)) {
+            Graphics2D graph = copyImage(img).createGraphics();
             for (Seat seat : seats) {
                 graph.setColor(seat.getColor());
 
@@ -49,6 +47,7 @@ public class ImageUtil {
                 graph.fill(new Rectangle(x, y, LINE_HEIGHT, LINE_WIDTH));
                 graph.fill(new Rectangle(x, y + LINE_HEIGHT - 5, LINE_HEIGHT, LINE_WIDTH));
                 graph.fill(new Rectangle(x + LINE_HEIGHT - 5, y, LINE_WIDTH, LINE_HEIGHT + 3));
+
             }
             graph.dispose();
             ImageIO.write(img, "png", output);
@@ -57,5 +56,13 @@ public class ImageUtil {
             ex.printStackTrace();
         }
         throw new RuntimeException("Could not edit image!");
+    }
+
+    public static BufferedImage copyImage(BufferedImage source){
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        return b;
     }
 }
