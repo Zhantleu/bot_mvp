@@ -13,6 +13,9 @@ public class BotProperty {
 
     private Long adminGroup;
 
+    public BotProperty() {
+    }
+
     public BotProperty(String token, String username, Long adminGroup) {
         this.token = token;
         this.username = username;
