@@ -1,17 +1,20 @@
 package kz.bot.mvp.polling;
 
 import kz.bot.mvp.handlers.Handler;
-import kz.bot.mvp.models.StepStatus;
 import kz.bot.mvp.properties.BotProperty;
 import kz.bot.mvp.storage.StepStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
@@ -53,8 +56,8 @@ public class MvpBot extends TelegramLongPollingBot {
 //            if (step != null) {
 //                handler = bookingHandler;
 //            } else {
-                handler = handlers.stream().filter(it -> it.isSuitable(update.getMessage().getText())).findFirst()
-                    .orElseThrow();
+            handler = handlers.stream().filter(it -> it.isSuitable(update.getMessage().getText())).findFirst()
+                .orElseThrow();
 //            }
             processMessage(update, handler);
         }
@@ -63,11 +66,30 @@ public class MvpBot extends TelegramLongPollingBot {
     private void processMessage(Update update, Handler it) {
         final String chatId = update.getMessage().getFrom().getId().toString();
         final PartialBotApiMethod<Message> message = it.process(chatId);
+        final PartialBotApiMethod<Message> groupMessage = createAdminMessage(update);
         try {
             executeMessage(message);
+            executeMessage(groupMessage);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private PartialBotApiMethod<Message> createAdminMessage(Update update) {
+        return SendMessage.builder()
+            .chatId(botProperty.getAdminGroup())
+            .parseMode(ParseMode.HTML)
+            .replyMarkup(
+                ReplyKeyboardMarkup.builder()
+                    .keyboard(
+                        List.of(
+                            new KeyboardRow(List.of(new KeyboardButton("Сосать цэ лежать")))
+                        )
+                    ).build()
+            )
+            .text(String.format("Использую бота: никнейм: %s", update.getMessage().getFrom().getUserName()))
+            .build();
+
     }
 
     private void executeMessage(PartialBotApiMethod<Message> partialBotApiMethod) throws TelegramApiException {
