@@ -11,14 +11,14 @@ public class BotProperty {
     private String token;
     private String username;
 
-    private Long adminGroup;
+    private Long adminGroupId;
 
     public BotProperty() {
     }
 
-    public BotProperty(String token, String username, Long adminGroup) {
+    public BotProperty(String token, String username, Long adminGroupId) {
         this.token = token;
         this.username = username;
-        this.adminGroup = adminGroup;
+        this.adminGroupId = adminGroupId;
     }
 }

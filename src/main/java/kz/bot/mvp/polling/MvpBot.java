@@ -77,7 +77,7 @@ public class MvpBot extends TelegramLongPollingBot {
 
     private PartialBotApiMethod<Message> createAdminMessage(Update update) {
         return SendMessage.builder()
-            .chatId(botProperty.getAdminGroup())
+            .chatId(botProperty.getAdminGroupId())
             .parseMode(ParseMode.HTML)
             .replyMarkup(
                 ReplyKeyboardMarkup.builder()
