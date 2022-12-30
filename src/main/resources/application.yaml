@@ -3,4 +3,4 @@ bot:
   username: 'MvpKstBot'
   group_id: -1001864449322
 server:
-  port: ${PORT:8080}
+  port: $PORT
