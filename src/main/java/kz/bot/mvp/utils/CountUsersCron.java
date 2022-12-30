@@ -29,7 +29,7 @@ public class CountUsersCron {
         this.userCountStorage = userCountStorage;
     }
 
-    @Scheduled(cron = "0 3 0 * * ?")
+    @Scheduled(cron = "0 9 5 * * ?")
     void getUsers() throws TelegramApiException {
         mvpBot.execute(createAdminMessage());
         userCountStorage.reset();
