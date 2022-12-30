@@ -21,6 +21,14 @@ public class ImageUtil {
     private final static int LINE_HEIGHT = 108;
     private final static int LINE_WIDTH = 8;
 
+    public static BufferedImage copyImage(BufferedImage source) {
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        return b;
+    }
+
     @SneakyThrows
     public InputStream fillSeats(List<Seat> seats) {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -51,13 +59,5 @@ public class ImageUtil {
             ex.printStackTrace();
         }
         throw new RuntimeException("Could not edit image!");
-    }
-
-    public static BufferedImage copyImage(BufferedImage source) {
-        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
-        Graphics g = b.getGraphics();
-        g.drawImage(source, 0, 0, null);
-        g.dispose();
-        return b;
     }
 }

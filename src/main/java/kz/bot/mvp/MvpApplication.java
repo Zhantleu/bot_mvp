@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -14,6 +15,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @SpringBootApplication
 @ConfigurationPropertiesScan("kz.bot.mvp.properties")
 @EnableConfigurationProperties(BotProperty.class)
+@EnableScheduling
 public class MvpApplication {
 
     public static void main(String[] args) throws TelegramApiException {
