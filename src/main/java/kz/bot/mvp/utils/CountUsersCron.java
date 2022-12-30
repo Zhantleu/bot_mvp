@@ -29,7 +29,7 @@ public class CountUsersCron {
         this.userCountStorage = userCountStorage;
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 15 * * *")
     void getUsers() throws TelegramApiException {
         mvpBot.execute(createAdminMessage());
         userCountStorage.reset();
@@ -39,14 +39,6 @@ public class CountUsersCron {
         return SendMessage.builder()
             .chatId(botProperty.getAdminGroupId())
             .parseMode(ParseMode.HTML)
-            .replyMarkup(
-                ReplyKeyboardMarkup.builder()
-                    .keyboard(
-                        List.of(
-                            new KeyboardRow(List.of(new KeyboardButton("Сосать цэ лежать")))
-                        )
-                    ).build()
-            )
             .text(String.format("Количество пользователей использующих бота за 24 часа: %d",
                 userCountStorage.getCount()))
             .build();
