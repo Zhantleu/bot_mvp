@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/mvp-0.0.1-SNAPSHOT.jar kz.bot.mvp.MvpApplication.java
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar kz.bot.mvp.MvpApplication.java
