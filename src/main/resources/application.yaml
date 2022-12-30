@@ -1,3 +1,6 @@
 bot:
   token: '5369536859:AAEzwC7kB5V38RxlIt_a6jqyo-X6N7PZmu4'
   username: 'MvpKstBot'
+  group_id: -1001864449322
+server:
+  port: ${PORT:8080}
