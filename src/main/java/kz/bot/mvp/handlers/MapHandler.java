@@ -1,8 +1,6 @@
 package kz.bot.mvp.handlers;
 
-import kz.bot.mvp.models.Point;
 import kz.bot.mvp.models.Seat;
-import kz.bot.mvp.models.SeatStatus;
 import kz.bot.mvp.storage.SeatStorage;
 import kz.bot.mvp.storage.UserCountStorage;
 import kz.bot.mvp.utils.DefaultKeyBoardRowUtil;
@@ -16,14 +14,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class MapHandler implements Handler {
@@ -31,34 +24,6 @@ public class MapHandler implements Handler {
     private final SeatStorage seatStorage;
     private final UserCountStorage userCountStorage;
     private final ImageUtil imageUtil;
-    private final Map<Integer, Point> coordinates = new HashMap<>() {{
-        put(1, new Point(586, 205)); // 1
-        put(2, new Point(457, 205)); // 2
-        put(3, new Point(331, 205)); // 3
-        put(4, new Point(202, 205)); // 4
-        put(5, new Point(75, 205)); // 5
-        put(6, new Point(74, 78)); // 6
-        put(7, new Point(203, 78)); // 7
-        put(8, new Point(331, 78)); // 8
-        put(9, new Point(459, 78)); // 9
-        put(10, new Point(587, 78)); // 10
-        put(11, new Point(715, 78)); // 11
-        put(12, new Point(971, 333)); // 12
-        put(13, new Point(971, 206)); // 13
-        put(14, new Point(971, 78)); // 14
-        put(15, new Point(1099, 78)); // 15
-        put(16, new Point(1099, 206)); // 16
-        put(17, new Point(1355, 333)); // 17
-        put(18, new Point(1483, 333)); // 18
-        put(19, new Point(1611, 333)); // 19
-        put(20, new Point(1739, 333)); // 20
-        put(21, new Point(1867, 333)); // 21
-        put(22, new Point(1355, 206)); // 22
-        put(23, new Point(1483, 206)); // 23
-        put(24, new Point(1611, 206)); // 24
-        put(25, new Point(1739, 206)); // 25
-        put(26, new Point(1867, 206)); // 26
-    }};
 
     @Autowired
     public MapHandler(SeatStorage seatStorage, UserCountStorage userCountStorage, ImageUtil imageUtil) {
@@ -77,7 +42,7 @@ public class MapHandler implements Handler {
 
     @Override
     public PartialBotApiMethod<Message> process(String chatId) {
-        final List<Seat> seats = getSeats();
+        final List<Seat> seats = seatStorage.getSeats();
         if (seats.isEmpty()) {
             return getErrorMessage(chatId);
         }
@@ -88,25 +53,11 @@ public class MapHandler implements Handler {
             .parseMode(ParseMode.HTML)
             .replyMarkup(
                 ReplyKeyboardMarkup.builder()
-                    .keyboard(
-                        List.of(
-                            new KeyboardRow(List.of(new KeyboardButton("Домой"))),
-                            new KeyboardRow(List.of(new KeyboardButton("Бронирование")))
-                        )
-                    ).build()
+                    .keyboard(DefaultKeyBoardRowUtil.DEFAULT_KEYBOARD).build()
             )
             .photo(new InputFile(image, "image.png"))
             .caption(getPretty())
             .build();
-    }
-
-    private List<Seat> getSeats() {
-        final HashMap<Integer, SeatStatus> seats = seatStorage.getSeats();
-        return coordinates
-            .entrySet()
-            .stream()
-            .map(it -> new Seat(it.getKey(), seats.get(it.getKey()), it.getValue()))
-            .collect(Collectors.toList());
     }
 
     @Override

@@ -38,14 +38,8 @@ public class MvpBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-//            final StepStatus step = stepStorage.getStep(update.getMessage().getChat().getId());
-            Handler handler;
-//            if (step != null) {
-//                handler = bookingHandler;
-//            } else {
-            handler =
+            Handler handler =
                 handlers.stream().filter(it -> it.isSuitable(update.getMessage().getText())).findFirst().orElseThrow();
-//            }
             processMessage(update, handler);
         }
     }

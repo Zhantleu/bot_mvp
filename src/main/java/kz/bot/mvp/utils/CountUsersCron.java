@@ -6,14 +6,9 @@ import kz.bot.mvp.storage.UserCountStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.util.List;
 
 @Component
 public class CountUsersCron {
@@ -37,6 +32,9 @@ public class CountUsersCron {
 
     private SendMessage createAdminMessage() {
         return SendMessage.builder()
+            .replyMarkup(InlineKeyboardMarkup.builder()
+                .clearKeyboard()
+                .build())
             .chatId(botProperty.getAdminGroupId())
             .text(String.format("Количество пользователей использующих бота за 24 часа: %d",
                 userCountStorage.getCount()))
