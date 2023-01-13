@@ -7,18 +7,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class UserCountStorage {
-    private final Set<String> chatIds = ConcurrentHashMap.newKeySet();
+    private final Set<String> usernames = ConcurrentHashMap.newKeySet();
 
 
-    public void update(String chatId) {
-        chatIds.add(chatId);
+    public void update(String username) {
+        usernames.add(username);
     }
 
-    public int getCount() {
-        return chatIds.size();
+    public Set<String> getUsernames() {
+        return usernames;
     }
 
     public void reset() {
-        chatIds.clear();
+        usernames.clear();
     }
 }

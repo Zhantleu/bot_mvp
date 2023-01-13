@@ -2,6 +2,7 @@ package kz.bot.mvp.polling;
 
 import kz.bot.mvp.handlers.Handler;
 import kz.bot.mvp.properties.BotProperty;
+import kz.bot.mvp.storage.UserCountStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -18,11 +19,14 @@ import java.util.List;
 public class MvpBot extends TelegramLongPollingBot {
     private final List<Handler> handlers;
     private final BotProperty botProperty;
+    private final UserCountStorage userNamesStorage;
+
 
     @Autowired
-    public MvpBot(List<Handler> handlers, BotProperty botProperty) {
+    public MvpBot(List<Handler> handlers, BotProperty botProperty, UserCountStorage userNamesStorage) {
         this.handlers = handlers;
         this.botProperty = botProperty;
+        this.userNamesStorage = userNamesStorage;
     }
 
     @Override
@@ -41,6 +45,7 @@ public class MvpBot extends TelegramLongPollingBot {
             Handler handler =
                 handlers.stream().filter(it -> it.isSuitable(update.getMessage().getText())).findFirst().orElseThrow();
             processMessage(update, handler);
+            userNamesStorage.update(update.getMessage().getFrom().getUserName());
         }
     }
 

@@ -36,8 +36,9 @@ public class CountUsersCron {
                 .clearKeyboard()
                 .build())
             .chatId(botProperty.getAdminGroupId())
-            .text(String.format("Количество пользователей использующих бота за 24 часа: %d",
-                userCountStorage.getCount()))
+            .text(String.format("Количество пользователей использующих бота за 24 часа: %d\n%s",
+                userCountStorage.getUsernames().size(),
+                String.join("\n", userCountStorage.getUsernames())))
             .build();
 
     }
