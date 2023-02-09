@@ -41,7 +41,6 @@ public class ShowAllUsers implements Handler {
     public List<String> getUserCommands() {
         return List.of("/showallusers");
     }
-
     @Override
     public boolean isForAdmin() {
         return true;
