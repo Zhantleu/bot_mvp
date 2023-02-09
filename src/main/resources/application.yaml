@@ -7,7 +7,7 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
   datasource:
     url: ${DATABASE_URL:jdbc:mysql://ltnya0pnki2ck9w8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/q69p5xknwcpdb8pg}
     username: ${DATABASE_USERNAME:ei9rcv9uq24km6oq}
