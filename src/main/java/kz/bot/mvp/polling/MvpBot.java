@@ -54,11 +54,16 @@ public class MvpBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            updateChat(update.getMessage().getFrom().getUserName(), update.getMessage().getChatId(),
-                update.getMessage().getText());
-            Handler handler =
-                handlers.stream().filter(it -> it.isSuitable(update.getMessage().getText())).findFirst().orElseThrow();
-            processMessage(update, handler);
+            final String userName = update.getMessage().getFrom().getUserName();
+            final Long chatId = update.getMessage().getChatId();
+            final String text = update.getMessage().getText();
+            updateChat(userName, chatId, text);
+            Handler handler = handlers.stream().filter(it -> it.isSuitable(text)).findFirst().orElseThrow();
+            if (!handler.isForAdmin()) {
+                processMessage(update, handler);
+            } else if (userName.equalsIgnoreCase("zxcoder")) {
+                processMessage(update, handler);
+            }
         }
     }
 
