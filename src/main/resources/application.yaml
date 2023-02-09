@@ -4,3 +4,12 @@ bot:
   admin_group_id: ${BOT_ADMIN_GROUP:-1001864449322}
 server:
   port: ${PORT:8080}
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://ltnya0pnki2ck9w8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/q69p5xknwcpdb8pg}
+    username: ${DATABASE_USERNAME:ei9rcv9uq24km6oq}
+    password: ${DATABASE_PASSWORD:a225bvgrfnaj27aj}
+    driver-class-name: com.mysql.cj.jdbc.Driver
