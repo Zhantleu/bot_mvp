@@ -19,7 +19,11 @@ public class ChatEntity {
     @Column(name = "telegram_chat_id")
     private Long chatId;
 
+
     @OneToMany(mappedBy = "chat", orphanRemoval = true) private List<MessageEntity> messages = new ArrayList<>();
+
+    public ChatEntity() {
+    }
 
     public Long getChatId() {
         return chatId;

@@ -22,6 +22,9 @@ public class MessageEntity {
     @JoinColumn(name = "chat_id")
     private ChatEntity chat;
 
+    public MessageEntity() {
+    }
+
     public ChatEntity getChat() {
         return chat;
     }
