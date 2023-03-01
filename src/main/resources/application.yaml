@@ -9,7 +9,7 @@ spring:
     hibernate:
       ddl-auto: none
   datasource:
-    url: jdbc:postgresql://${DATABASE_URL:ec2-63-35-156-160.eu-west-1.compute.amazonaws.com:5432/ddcg9t2eahct3e}
+    url: jdbc:postgresql://${DATABASE_URL:ec2-63-35-156-160.eu-west-1.compute.amazonaws.com:5432/ddcg9t2eahct3e}?sslMode=disable
     username: ${DATABASE_USERNAME:sgoznazwtunvfl}
     password: ${DATABASE_PASSWORD:9fdb693c537bab333b836085c3d5899aa6a06094ece52f687103c29a9c52deff}
     driver-class-name: org.postgresql.Driver
