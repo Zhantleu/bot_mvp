@@ -1,5 +1,6 @@
 package kz.bot.mvp.polling;
 
+import java.util.Objects;
 import kz.bot.mvp.handlers.Handler;
 import kz.bot.mvp.models.ChatEntity;
 import kz.bot.mvp.models.MessageEntity;
@@ -69,23 +70,25 @@ public class MvpBot extends TelegramLongPollingBot {
 
     @Transactional
     void updateChat(String userName, Long chatId, String text) {
-        ChatEntity chat = chatRepository.findByUsername(userName);
+        if (!Objects.equals(chatId, botProperty.getAdminGroupId())) {
+            ChatEntity chat = chatRepository.findByUsername(userName);
 
-        if (chat == null) {
-            chat = new ChatEntity();
-            chat.setUsername(userName);
-            chat.setId(UUID.randomUUID());
-            chat.setChatId(chatId);
-            chat = chatRepository.save(chat);
+            if (chat == null) {
+                chat = new ChatEntity();
+                chat.setUsername(userName);
+                chat.setId(UUID.randomUUID());
+                chat.setChatId(chatId);
+                chat = chatRepository.save(chat);
+            }
+
+            MessageEntity message = new MessageEntity();
+            message.setId(UUID.randomUUID());
+            message.setText(text);
+            message.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Almaty")));
+            message.setChat(chat);
+
+            messageRepository.save(message);
         }
-
-        MessageEntity message = new MessageEntity();
-        message.setId(UUID.randomUUID());
-        message.setText(text);
-        message.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Almaty")));
-        message.setChat(chat);
-
-        messageRepository.save(message);
     }
 
     private void processMessage(Update update, Handler it) {
