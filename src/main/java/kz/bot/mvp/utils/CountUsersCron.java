@@ -54,7 +54,6 @@ public class CountUsersCron {
                 chats.size(),
                 String.join("\n", chats)))
             .build();
-
     }
 
 }
