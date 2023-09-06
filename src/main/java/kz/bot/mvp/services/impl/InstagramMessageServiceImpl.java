@@ -32,10 +32,12 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
     public void process(List<InstagramMessageDto> messageDtos) {
         List<String> unreadMessages = new ArrayList<>();
         for (InstagramMessageDto messageDto : messageDtos) {
-            if (messageDto.getStatus().equals(InstagramMessageDto.Status.NOT_ANSWERED)
-                    && !messageDto.getName().equalsIgnoreCase("Erik")
-                    && !messageDto.getName().startsWith("Салта")) {
-                unreadMessages.add(messageDto.getName());
+            if (messageDto != null) {
+                if (messageDto.getStatus().equals(InstagramMessageDto.Status.NOT_ANSWERED)
+                        && !messageDto.getName().equalsIgnoreCase("Erik")
+                        && !messageDto.getName().startsWith("Салта")) {
+                    unreadMessages.add(messageDto.getName());
+                }
             }
         }
         if (!unreadMessages.isEmpty()) {
