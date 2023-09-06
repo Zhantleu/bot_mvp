@@ -19,6 +19,9 @@ public class InstagramMessages {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void save(@RequestBody ContainerInstagramMessage payload) {
+        if (payload.getData() == null) {
+            return;
+        }
         instagramMessageService.process(payload.getData());
     }
 }
