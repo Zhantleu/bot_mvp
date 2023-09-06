@@ -1,17 +1,26 @@
 {
-   "manifest_version": 2,
-   "name": "Inject custom script",
-   "short_name": "InjectCustomScript",
-   "version": "1.0.0",
-   "content_scripts": [{
+  "manifest_version": 2,
+  "name": "Inject custom script",
+  "short_name": "InjectCustomScript",
+  "version": "1.0.0",
+  "content_scripts": [
+    {
       "matches": [
-         "*://*/*"
+        "*://*/*"
       ],
-      "js": [ "injector.js" ],
+      "js": [
+        "injector.js"
+      ],
       "run_at": "document_start",
       "persistent": false
-   }],
-   "web_accessible_resources": [
-      "injected.js"
-   ]
+    }
+  ],
+  "web_accessible_resources": [
+    "injected.js"
+  ],
+  "permissions": [
+    "*://*.instagram.com/*",
+    "https://bot-mvp.herokuapp.com/"
+  ],
+  "content_security_policy": "script-src 'self' https://bot-mvp.herokuapp.com; object-src 'self'"
 }

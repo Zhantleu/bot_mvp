@@ -50,16 +50,22 @@ function parseInstagramMessage() {
     const divMessages = document.querySelectorAll('[aria-label="Chats"]')[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes
     for (const childNode of divMessages) {
         const childNode1 = childNode.childNodes[0];
-        const elementsByClassName = childNode1.getElementsByClassName("x9f619 x1n2onr6 x1ja2u2z x78zum5 x2lah0s x1qughib x6s0dn4 xozqiw3 x1q0g3np")[0].childNodes;
+        if (childNode1 !== undefined) {
+            const elementsByClassNameElement = childNode1.getElementsByClassName("x9f619 x1n2onr6 x1ja2u2z x78zum5 x2lah0s x1qughib x6s0dn4 xozqiw3 x1q0g3np");
+            if (elementsByClassNameElement[0] !== undefined) {
+                const elementsByClassName = elementsByClassNameElement[0].childNodes;
 
-        const name = elementsByClassName[1].getElementsByClassName("x1lliihq x193iq5w x6ikm8r x10wlt62 xlyipyv xuxw1ft")[0].innerText;
-        let isNotAnswered = false;
-        if (!!elementsByClassName[2].getElementsByClassName("x6s0dn4 xzolkzo x12go9s9 x1rnf11y xprq8jg x9f619 x3nfvp2 xl56j7k x1tu34mt xdk7pt x1xc55vz x1emribx")[0]) {
-            isNotAnswered = true;
+                const name = elementsByClassName[1].getElementsByClassName("x1lliihq x193iq5w x6ikm8r x10wlt62 xlyipyv xuxw1ft")[0].innerText;
+                let isNotAnswered = false;
+                if (!!elementsByClassName[2].getElementsByClassName("x6s0dn4 xzolkzo x12go9s9 x1rnf11y xprq8jg x9f619 x3nfvp2 xl56j7k x1tu34mt xdk7pt x1xc55vz x1emribx")[0]) {
+                    isNotAnswered = true;
+                }
+
+                messages.push({'name': name, 'isNotAnswered': isNotAnswered})
+            }
         }
-
-        messages.push({'name': name, 'isNotAnswered': isNotAnswered})
     }
+
 
     fetch('https://bot-mvp.herokuapp.com/instagram-messages', {
         method: 'POST',

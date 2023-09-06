@@ -30,7 +30,7 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @GetMapping(value = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<MessageDto>> getAll(@PathVariable String username,
                                                    String token,
                                                    Pageable pageable) {
