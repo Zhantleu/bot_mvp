@@ -44,7 +44,9 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
             if (messageId != null) {
                 mvpBot.execute(deletePrevMessage());
             }
-            final Message execute = mvpBot.execute(createUnreadMessage(unreadMessages));
+            final SendMessage unreadMessage = createUnreadMessage(unreadMessages);
+            unreadMessage.enableHtml(true);
+            final Message execute = mvpBot.execute(unreadMessage);
             messageId = execute.getMessageId();
         }
     }
