@@ -64,7 +64,7 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
                         .clearKeyboard()
                         .build())
                 .chatId(botProperty.getAdminGroupId())
-                .text(String.format("<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>\n@big_nurs @mirmanov_kst @Mirali @slimshadyer88\n%s",
+                .text(String.format("<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>\n@big_nurs @@Dosbol_19 @@Moriartiadmin @slimshadyer88\n%s",
                         String.join("\n", unreadMessages)))
                 .build();
     }
