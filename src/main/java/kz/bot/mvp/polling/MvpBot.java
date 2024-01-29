@@ -1,15 +1,9 @@
 package kz.bot.mvp.polling;
 
-import java.util.Objects;
 import kz.bot.mvp.handlers.Handler;
-import kz.bot.mvp.models.ChatEntity;
-import kz.bot.mvp.models.MessageEntity;
 import kz.bot.mvp.properties.BotProperty;
-import kz.bot.mvp.repositories.ChatRepository;
-import kz.bot.mvp.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,28 +12,24 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class MvpBot extends TelegramLongPollingBot {
     private final List<Handler> handlers;
     private final BotProperty botProperty;
-    private final MessageRepository messageRepository;
-    private final ChatRepository chatRepository;
+//    private final MessageRepository messageRepository;
+//    private final ChatRepository chatRepository;
 
 
     @Autowired
     public MvpBot(List<Handler> handlers,
-                  BotProperty botProperty,
-                  MessageRepository messageRepository,
-                  ChatRepository chatRepository) {
+                  BotProperty botProperty
+//                  MessageRepository messageRepository,
+//                  ChatRepository chatRepository) {
+    ) {
         this.handlers = handlers;
         this.botProperty = botProperty;
-        this.messageRepository = messageRepository;
-        this.chatRepository = chatRepository;
     }
 
     @Override
@@ -58,7 +48,7 @@ public class MvpBot extends TelegramLongPollingBot {
             final String userName = update.getMessage().getFrom().getUserName();
             final Long chatId = update.getMessage().getChatId();
             final String text = update.getMessage().getText();
-            updateChat(userName, chatId, text);
+//            updateChat(userName, chatId, text);
             Handler handler = handlers.stream().filter(it -> it.isSuitable(text)).findFirst().orElseThrow();
             if (!handler.isForAdmin()) {
                 processMessage(update, handler);
@@ -68,27 +58,26 @@ public class MvpBot extends TelegramLongPollingBot {
         }
     }
 
-    @Transactional
     void updateChat(String userName, Long chatId, String text) {
-        if (!Objects.equals(chatId, botProperty.getAdminGroupId())) {
-            ChatEntity chat = chatRepository.findByUsername(userName);
-
-            if (chat == null) {
-                chat = new ChatEntity();
-                chat.setUsername(userName);
-                chat.setId(UUID.randomUUID());
-                chat.setChatId(chatId);
-                chat = chatRepository.save(chat);
-            }
-
-            MessageEntity message = new MessageEntity();
-            message.setId(UUID.randomUUID());
-            message.setText(text);
-            message.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Almaty")));
-            message.setChat(chat);
-
-            messageRepository.save(message);
-        }
+//        if (!Objects.equals(chatId, botProperty.getAdminGroupId())) {
+//            ChatEntity chat = chatRepository.findByUsername(userName);
+//
+//            if (chat == null) {
+//                chat = new ChatEntity();
+//                chat.setUsername(userName);
+//                chat.setId(UUID.randomUUID());
+//                chat.setChatId(chatId);
+//                chat = chatRepository.save(chat);
+//            }
+//
+//            MessageEntity message = new MessageEntity();
+//            message.setId(UUID.randomUUID());
+//            message.setText(text);
+//            message.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Almaty")));
+//            message.setChat(chat);
+//
+//            messageRepository.save(message);
+//        }
     }
 
     private void processMessage(Update update, Handler it) {
