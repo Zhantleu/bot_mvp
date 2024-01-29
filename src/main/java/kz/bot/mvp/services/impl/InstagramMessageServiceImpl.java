@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 public class InstagramMessageServiceImpl implements InstagramMessageService {
-    private final static String TEXT = "<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>\n@@Ara_Zhak @ @slimshadyer88\n%s";
+    private final static String TEXT = "<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>\n@Nurzhigit95@Ara_Zhak @Mura98_1\n%s";
     private final MvpBot mvpBot;
     private final BotProperty botProperty;
     private Integer messageId;
@@ -62,7 +62,7 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
         if (prevMessageTime != null) {
             final LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Almaty"));
             if (prevMessageTime.plusMinutes(7).isBefore(now)) {
-                final SendMessage unreadMessage = createUnreadMessage("Не ответили в инстаграм в течении 7 минут");
+                final SendMessage unreadMessage = createUnreadMessage("@slimshadyer88\nНе ответили в инстаграм в течении 7 минут");
                 unreadMessage.enableHtml(true);
                 mvpBot.execute(unreadMessage);
             }
