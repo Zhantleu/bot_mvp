@@ -13,8 +13,4 @@ public interface Handler {
     default boolean isSuitable(String text) {
         return getUserCommands().stream().anyMatch(it -> it.equalsIgnoreCase(text));
     }
-
-    default boolean isForAdmin() {
-        return false;
-    }
 }

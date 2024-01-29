@@ -11,14 +11,14 @@ public class Seat {
     private SeatStatus status;
     private @NonNull Point start;
 
-    public Seat(int number, SeatStatus status, @NonNull Point start) {
+    public Seat(int number, @NonNull SeatStatus status, @NonNull Point start) {
         this.number = number;
         this.status = status;
         this.start = start;
     }
 
     public Color getColor() {
-        if (status.equals(SeatStatus.BUSY)) {
+        if (this.status == SeatStatus.BUSY) {
             return new Color(94, 53, 177, 255);
         } else {
             return new Color(76, 175, 80, 255);

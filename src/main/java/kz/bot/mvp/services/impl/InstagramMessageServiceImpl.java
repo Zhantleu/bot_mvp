@@ -24,7 +24,6 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
     private final MvpBot mvpBot;
     private final BotProperty botProperty;
     private Integer messageId;
-    private LocalDateTime prevMessageTime;
 
     @Autowired
     public InstagramMessageServiceImpl(MvpBot mvpBot, BotProperty botProperty) {
@@ -48,24 +47,11 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
         if (!unreadMessages.isEmpty()) {
             if (messageId != null) {
                 mvpBot.execute(deletePrevMessage());
-                alarmIfNotAnsweredAboutFiveMinutes();
             }
             final SendMessage unreadMessage = createUnreadMessage(String.format(TEXT, String.join("\n", unreadMessages)));
             unreadMessage.enableHtml(true);
             final Message execute = mvpBot.execute(unreadMessage);
             messageId = execute.getMessageId();
-            prevMessageTime = LocalDateTime.now(ZoneId.of("Asia/Almaty"));
-        }
-    }
-
-    private void alarmIfNotAnsweredAboutFiveMinutes() throws TelegramApiException {
-        if (prevMessageTime != null) {
-            final LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Almaty"));
-            if (prevMessageTime.plusMinutes(7).isBefore(now)) {
-                final SendMessage unreadMessage = createUnreadMessage("@slimshadyer88\nНе ответили в инстаграм в течении 7 минут");
-                unreadMessage.enableHtml(true);
-                mvpBot.execute(unreadMessage);
-            }
         }
     }
 

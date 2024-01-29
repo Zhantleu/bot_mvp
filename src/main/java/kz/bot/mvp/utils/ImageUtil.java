@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class ImageUtil {
 
-    private final static int LINE_HEIGHT = 108;
+    private final static int LINE_HEIGHT = 88;
     private final static int LINE_WIDTH = 8;
 
     public static BufferedImage copyImage(BufferedImage source) {

@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
+
 @Slf4j
 @Component
 public class MvpBot extends TelegramLongPollingBot {
@@ -46,17 +47,13 @@ public class MvpBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            final String userName = update.getMessage().getFrom().getUserName();
-            final Long chatId = update.getMessage().getChatId();
             final String text = update.getMessage().getText();
 //            updateChat(userName, chatId, text);
-            log.info(text);
-            Handler handler = handlers.stream().filter(it -> it.isSuitable(text)).findFirst().orElseThrow();
-            if (!handler.isForAdmin()) {
-                processMessage(update, handler);
-            } else if (userName.equalsIgnoreCase("zxcoder")) {
-                processMessage(update, handler);
+            Handler handler = handlers.stream().filter(it -> it.isSuitable(text)).findFirst().orElse(null);
+            if (handler == null) {
+                return;
             }
+            processMessage(update, handler);
         }
     }
 
