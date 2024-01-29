@@ -2,6 +2,7 @@ package kz.bot.mvp.polling;
 
 import kz.bot.mvp.handlers.Handler;
 import kz.bot.mvp.properties.BotProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -13,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
-
+@Slf4j
 @Component
 public class MvpBot extends TelegramLongPollingBot {
     private final List<Handler> handlers;
@@ -49,6 +50,7 @@ public class MvpBot extends TelegramLongPollingBot {
             final Long chatId = update.getMessage().getChatId();
             final String text = update.getMessage().getText();
 //            updateChat(userName, chatId, text);
+            log.info(text);
             Handler handler = handlers.stream().filter(it -> it.isSuitable(text)).findFirst().orElseThrow();
             if (!handler.isForAdmin()) {
                 processMessage(update, handler);

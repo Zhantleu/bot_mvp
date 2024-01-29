@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 public class InstagramMessageServiceImpl implements InstagramMessageService {
-    private final static String TEXT = "<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>\n@Nurzhigit95@Ara_Zhak @Mura98_1\n%s";
+    private final static String TEXT = "<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>\n@Nurzhigit95 @Ara_Zhak @Mura98_1\n%s";
     private final MvpBot mvpBot;
     private final BotProperty botProperty;
     private Integer messageId;
