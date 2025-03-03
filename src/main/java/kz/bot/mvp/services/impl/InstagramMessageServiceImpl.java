@@ -11,19 +11,17 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class InstagramMessageServiceImpl implements InstagramMessageService {
-    private final static String TEXT = "<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>\n@Nurzhigit95 @Ara_Zhak @Mura98_1\n%s";
+    private final static String TEXT = "<b>ЖДУТ ОТВЕТА В ИНСТАГРАМ</b>";
+
+    private Integer messageId;
     private final MvpBot mvpBot;
     private final BotProperty botProperty;
-    private Integer messageId;
 
     @Autowired
     public InstagramMessageServiceImpl(MvpBot mvpBot, BotProperty botProperty) {
@@ -48,7 +46,7 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
             if (messageId != null) {
                 mvpBot.execute(deletePrevMessage());
             }
-            final SendMessage unreadMessage = createUnreadMessage(String.format(TEXT, String.join("\n", unreadMessages)));
+            final SendMessage unreadMessage = createUnreadMessage();
             unreadMessage.enableHtml(true);
             final Message execute = mvpBot.execute(unreadMessage);
             messageId = execute.getMessageId();
@@ -62,13 +60,13 @@ public class InstagramMessageServiceImpl implements InstagramMessageService {
                 .build();
     }
 
-    private SendMessage createUnreadMessage(String content) {
+    private SendMessage createUnreadMessage() {
         return SendMessage.builder()
                 .replyMarkup(InlineKeyboardMarkup.builder()
                         .clearKeyboard()
                         .build())
                 .chatId(botProperty.getAdminGroupId())
-                .text(content)
+                .text(InstagramMessageServiceImpl.TEXT)
                 .build();
     }
 }

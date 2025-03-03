@@ -2,6 +2,7 @@ package kz.bot.mvp.handlers;
 
 import kz.bot.mvp.models.Seat;
 import kz.bot.mvp.storage.SeatStorage;
+import kz.bot.mvp.storage.UserCountStorage;
 import kz.bot.mvp.utils.DefaultKeyBoardRowUtil;
 import kz.bot.mvp.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,13 @@ import java.util.List;
 public class MapHandler implements Handler {
 
     private final SeatStorage seatStorage;
+    private final UserCountStorage userCountStorage;
     private final ImageUtil imageUtil;
 
     @Autowired
-    public MapHandler(SeatStorage seatStorage, ImageUtil imageUtil) {
+    public MapHandler(SeatStorage seatStorage, UserCountStorage userCountStorage, ImageUtil imageUtil) {
         this.seatStorage = seatStorage;
+        this.userCountStorage = userCountStorage;
         this.imageUtil = imageUtil;
     }
 
@@ -44,6 +47,7 @@ public class MapHandler implements Handler {
             return getErrorMessage(chatId);
         }
         final InputStream image = imageUtil.fillSeats(seats);
+        userCountStorage.update(chatId);
         return SendPhoto.builder()
             .chatId(chatId)
             .parseMode(ParseMode.HTML)
